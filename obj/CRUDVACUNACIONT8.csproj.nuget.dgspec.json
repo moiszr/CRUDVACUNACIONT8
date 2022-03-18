@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CRUDVACUNACIONT8\\CRUDVACUNACIONT8.csproj": {}
+    "C:\\Users\\perey\\Documents\\Itla\\5TO Cuatrimestre\\CRUD\\CRUDVACUNACIONT8\\CRUDVACUNACIONT8.csproj": {}
   },
   "projects": {
-    "D:\\CRUDVACUNACIONT8\\CRUDVACUNACIONT8.csproj": {
+    "C:\\Users\\perey\\Documents\\Itla\\5TO Cuatrimestre\\CRUD\\CRUDVACUNACIONT8\\CRUDVACUNACIONT8.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CRUDVACUNACIONT8\\CRUDVACUNACIONT8.csproj",
+        "projectUniqueName": "C:\\Users\\perey\\Documents\\Itla\\5TO Cuatrimestre\\CRUD\\CRUDVACUNACIONT8\\CRUDVACUNACIONT8.csproj",
         "projectName": "CRUDVACUNACIONT8",
-        "projectPath": "D:\\CRUDVACUNACIONT8\\CRUDVACUNACIONT8.csproj",
-        "packagesPath": "C:\\Users\\moise\\.nuget\\packages\\",
-        "outputPath": "D:\\CRUDVACUNACIONT8\\obj\\",
+        "projectPath": "C:\\Users\\perey\\Documents\\Itla\\5TO Cuatrimestre\\CRUD\\CRUDVACUNACIONT8\\CRUDVACUNACIONT8.csproj",
+        "packagesPath": "C:\\Users\\perey\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\perey\\Documents\\Itla\\5TO Cuatrimestre\\CRUD\\CRUDVACUNACIONT8\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\moise\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\perey\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -77,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

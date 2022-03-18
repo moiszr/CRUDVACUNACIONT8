@@ -1,0 +1,98 @@
+﻿@page "/Signo"
+@using CRUDVACUNACIONT8.Data
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Index</PageTitle>
+
+
+  @if (_personas != null)
+{
+    foreach (var post in _personas)
+    {
+        string dt = post.FechaNacimiento.ToString("MM/dd/yyyy");
+        DateTime myDateTime = DateTime.Parse(dt);
+        int dia = int.Parse(Convert.ToString(myDateTime.Day));
+        int mes = int.Parse(Convert.ToString(myDateTime.Month));
+
+        Signo signos = new Signo();
+
+        signos.Id = post.Id;
+        signos.Cedula = post.Cedula;
+        signos.Nombre = post.Nombre;
+        signos.Apellido = post.Apellido;
+        signos.Telefono = post.Telefono;
+        signos.FechaNacimiento = post.FechaNacimiento;
+        signos.VacunasRecibidas = post.VacunasRecibidas;
+        signos.Provincias = post.Provincias;
+        signos.Fecha = post.Fecha;
+
+          if((dia>=21&&mes==3)||(dia<=20&&mes==4))
+                aries.Add(signos);
+            if((dia>=24&&mes==9)||(dia<=23&&mes==10))
+                libra.Add(signos);
+            if((dia>=21&&mes==4)||(dia<=21&&mes==5))
+                tauro.Add(signos);
+            if((dia>=24&&mes==10)||(dia<=22&&mes==11))
+                escorpio.Add(signos);
+            if((dia>=22&&mes==5)||(dia<=21&&mes==6))
+                geminis.Add(signos);
+            if((dia>=23&&mes==11)||(dia<=21&&mes==12))
+                sagitario.Add(signos);
+            if((dia>=21&&mes==6)||(dia<=23&&mes==7))
+                cancer.Add(signos);
+            if((dia>=22&&mes==12)||(dia<=20&&mes==1))
+                capricornio.Add(signos);
+            if((dia>=24&&mes==7)||(dia<=23&&mes==8))
+                leo.Add(signos);
+            if((dia>=21&&mes==1)||(dia<=19&&mes==2))
+                acuario.Add(signos);
+            if((dia>=24&&mes==8)||(dia<=23&&mes==9))
+                virgo.Add(signos);
+            if((dia>=20&&mes==2)||(dia<=20&&mes==3))
+                piscis.Add(signos);
+
+    }
+}
+
+<DataGrid Datos="@aries" SignoZ="Aries"> </DataGrid>
+<DataGrid Datos="@libra" SignoZ="Libre"> </DataGrid>
+<DataGrid Datos="@tauro" SignoZ="Tauro"> </DataGrid>
+<DataGrid Datos="@escorpio" SignoZ="Escorpio"> </DataGrid>
+<DataGrid Datos="@geminis" SignoZ="Geminis"> </DataGrid>
+<DataGrid Datos="@sagitario" SignoZ="Sagitario"> </DataGrid>
+<DataGrid Datos="@cancer" SignoZ="Cancer"> </DataGrid>
+<DataGrid Datos="@capricornio" SignoZ="Capricornio"> </DataGrid>
+<DataGrid Datos="@leo" SignoZ="Leo"> </DataGrid>
+<DataGrid Datos="@acuario" SignoZ="Acuario"> </DataGrid>
+<DataGrid Datos="@virgo" SignoZ="Virgo"> </DataGrid>
+
+@code
+{
+
+
+    [Inject] CrudDbContext crudDb { get; set; }
+    private List<Personas> _personas = new List<Personas>();
+    private List<VacunasRecibidas> _vacunas = new List<VacunasRecibidas>();
+    private List<Provincias> _provincia = new List<Provincias>();
+    private List<Signo> aries  = new List<Signo>();
+    private List<Signo> libra  = new List<Signo>();
+    private List<Signo> tauro  = new List<Signo>();
+    private List<Signo> escorpio  = new List<Signo>();
+    private List<Signo> geminis  = new List<Signo>();
+    private List<Signo> sagitario  = new List<Signo>();
+    private List<Signo> cancer = new List<Signo>();
+    private List<Signo> capricornio = new List<Signo>();
+    private List<Signo> leo = new List<Signo>();
+    private List<Signo> acuario  = new List<Signo>();
+    private List<Signo> virgo  = new List<Signo>();
+    private List<Signo> piscis   = new List<Signo>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        _personas = await crudDb.Personas.ToListAsync();
+        _vacunas = await crudDb.Vacunas.ToListAsync();
+        _provincia = await crudDb.Provincias.ToListAsync();
+    }
+
+ }
