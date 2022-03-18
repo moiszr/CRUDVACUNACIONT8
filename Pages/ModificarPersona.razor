@@ -2,6 +2,7 @@
 @using CRUDVACUNACIONT8.Data
 @using Microsoft.EntityFrameworkCore
 
+
 <h3>Modificar Persona</h3>
 
 <EditForm Model="_personaToModify" OnInvalidSubmit="ModifyPersonas">
@@ -63,17 +64,22 @@
 </EditForm>
 
 @code {
-    [Inject] CrudDbContext CrudDbContext { get; set; }
-    [Inject] NavigationManager navigationManager { get; set; }
+    #nullable disable
+
+    [Inject] CrudDbContext CrudDbContext { get; set; } = default!;
+    [Inject] NavigationManager navigationManager { get; set; } = default!;
     [Parameter] public int id { get; set; }
 
-    private Personas _personaToModify = null;
+    private Personas _personaToModify = default!;
     private List<VacunasRecibidas> _vacunas = new List<VacunasRecibidas>();
     private List<Provincias> _provincias = new List<Provincias>();
 
     protected override async Task OnParametersSetAsync()
     {
-        _personaToModify = await CrudDbContext.Personas.FindAsync(id);
+        if(CrudDbContext?.Personas != null)
+        {
+            _personaToModify = await CrudDbContext.Personas.FindAsync(id);
+        }
     }
 
     protected override async Task OnInitializedAsync()
@@ -87,7 +93,7 @@
 
     private void ModifyPersonas()
     {
-        if (_personaToModify.Cedula != null && _personaToModify.Nombre != null && _personaToModify.Apellido != null && _personaToModify.Telefono != null && _personaToModify.FechaNacimiento != null && _personaToModify.IdProvincia != null && _personaToModify.IdVacuna != null && _personaToModify.Fecha != null)
+        if (_personaToModify.Cedula != null && _personaToModify.Nombre != null && _personaToModify.Apellido != null && _personaToModify.Telefono != null && _personaToModify?.FechaNacimiento != null && _personaToModify?.IdProvincia != null && _personaToModify?.IdVacuna != null && _personaToModify?.Fecha != null)
         {
             CrudDbContext.Personas.Update(_personaToModify);
             CrudDbContext.SaveChangesAsync();

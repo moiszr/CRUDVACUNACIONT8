@@ -1,0 +1,65 @@
+﻿.contenedor {
+    width: 100%;
+    max-width: 1200px;
+    height: 430px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 170px;
+}
+
+.contenedor .tarjeta {
+    width: 330px;
+    height: 370px;
+    border-radius: 8px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin: 20px;
+    text-align: center;
+    transition: all 0.25s;
+}
+
+.contenedor .tarjeta:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
+}
+
+.contenedor .tarjeta img {
+    width: 330px;
+    height: 220px;
+}
+
+.contenedor .tarjeta h4 {
+    margin: 15px;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.contenedor .tarjeta p {
+    margin-top: 5px;
+    padding: 0 1rem;
+    font-size: 16px;
+    font-weight: 300;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+    color: #000000;
+}
+
+.contenedor .tarjeta a {
+    font-weight: 500;
+    text-decoration: none;
+    color: #3498db;
+}
+
+.card-group .card {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.tarjeta p .read-more, p {
+    display: none;
+}

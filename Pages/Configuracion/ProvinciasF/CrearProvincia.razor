@@ -17,8 +17,8 @@
 </EditForm>
 
 @code {
-    [Inject] CrudDbContext CrudDbContext { get; set; }
-    [Inject] NavigationManager navigationManager { get; set; }
+    [Inject] CrudDbContext CrudDbContext { get; set; } = default!;
+    [Inject] NavigationManager navigationManager { get; set; } = default!;
 
     private Provincias _provinciaToCreate = new Provincias {};
 

@@ -17,11 +17,13 @@
 </EditForm>
 
 @code {
-    [Inject] CrudDbContext CrudDbContext { get; set; }
-    [Inject] NavigationManager navigationManager { get; set; }
+    #nullable disable
+
+    [Inject] CrudDbContext CrudDbContext { get; set; } = default!;
+    [Inject] NavigationManager navigationManager { get; set; } = default!;
     [Parameter] public int id { get; set; }
 
-    private Provincias _provinciaToModify = null;
+    private Provincias _provinciaToModify = default!;
 
     protected override async Task OnParametersSetAsync()
     {

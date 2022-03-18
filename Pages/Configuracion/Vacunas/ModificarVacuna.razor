@@ -22,11 +22,13 @@
 </EditForm>
 
 @code {
-    [Inject] CrudDbContext CrudDbContext { get; set; }
-    [Inject] NavigationManager navigationManager { get; set; }
+    #nullable disable
+
+    [Inject] CrudDbContext CrudDbContext { get; set; } = default!;
+    [Inject] NavigationManager navigationManager { get; set; } = default!;
     [Parameter] public int id { get; set; }
 
-    private VacunasRecibidas _vacunaToModify = null;
+    private VacunasRecibidas _vacunaToModify = default!;
 
     protected override async Task OnParametersSetAsync()
     {

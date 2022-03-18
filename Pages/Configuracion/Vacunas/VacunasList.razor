@@ -41,7 +41,7 @@
 
 @code
 {
-    [Inject] CrudDbContext crudDb { get; set; }
+    [Inject] CrudDbContext crudDb { get; set; } = default!;
     private List<VacunasRecibidas> _vacunas = new List<VacunasRecibidas>();
 
     protected override async Task OnInitializedAsync()

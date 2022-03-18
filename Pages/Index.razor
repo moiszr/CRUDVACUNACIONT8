@@ -52,24 +52,30 @@
 
 @code
 {
-    [Inject] CrudDbContext crudDb { get; set; }
+    [Inject] CrudDbContext? crudDb { get; set; }
     private List<Personas> _personas = new List<Personas>();
     private List<VacunasRecibidas> _vacunas = new List<VacunasRecibidas>();
     private List<Provincias> _provincia = new List<Provincias>();
 
     protected override async Task OnInitializedAsync()
     {
-        _personas = await crudDb.Personas.ToListAsync();
-        _vacunas = await crudDb.Vacunas.ToListAsync();
-        _provincia = await crudDb.Provincias.ToListAsync();
+        if(crudDb?.Personas != null && crudDb.Vacunas != null && crudDb.Provincias != null)
+        {
+            _personas = await crudDb.Personas.ToListAsync();
+            _vacunas = await crudDb.Vacunas.ToListAsync();
+            _provincia = await crudDb.Provincias.ToListAsync();
+        }
     }
 
     private async Task DeletePersonas(Personas PersonasDelete)
     {
-        crudDb.Personas.Remove(PersonasDelete);
-        await crudDb.SaveChangesAsync();
-        _personas.Remove(PersonasDelete);
-        StateHasChanged();
+        if(crudDb?.Personas != null)
+        {
+            crudDb.Personas.Remove(PersonasDelete);
+            await crudDb.SaveChangesAsync();
+            _personas.Remove(PersonasDelete);
+            StateHasChanged();
+        }
     }
     
 }
