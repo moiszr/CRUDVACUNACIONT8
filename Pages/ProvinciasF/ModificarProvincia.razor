@@ -1,0 +1,40 @@
+﻿@page "/modificarprovincia/{id:int}"
+@using CRUDVACUNACIONT8.Data
+
+<h3>Modificar Provincia</h3>
+
+<EditForm Model="_provinciaToModify" OnInvalidSubmit="ModifyProvincia">
+    <div class="form-group mb-3">
+        <label for="provinciaNombre">Nombre Provincia</label>
+        <InputText @bind-Value="_provinciaToModify.Provincia" class="form-control" id="provinciaNombre" />
+    </div>
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <button @onclick="() => ModifyProvincia()" class="btn btn-success" type="submit">Guardar</button>
+    <a href="/provincias" class="btn btn-secondary">Cancelar</a>
+</EditForm>
+
+@code {
+    [Inject] CrudDbContext CrudDbContext { get; set; }
+    [Inject] NavigationManager navigationManager { get; set; }
+    [Parameter] public int id { get; set; }
+
+    private Provincias _provinciaToModify = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _provinciaToModify = await CrudDbContext.Provincias.FindAsync(id);
+    }
+
+    private void ModifyProvincia()
+    {
+        if (_provinciaToModify.Provincia != null)
+        {
+            CrudDbContext.Provincias.Update(_provinciaToModify);
+            CrudDbContext.SaveChangesAsync();
+            navigationManager.NavigateTo("/provincias");
+        }
+    }
+}

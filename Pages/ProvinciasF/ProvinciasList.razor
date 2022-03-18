@@ -1,0 +1,57 @@
+﻿@page "/provincias"
+@using CRUDVACUNACIONT8.Data
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Provincias - Covid-19</PageTitle>
+
+<h1>Listado de Provincias</h1>
+
+<a href="/crearprovincia" class="btn btn-success mt-5">Nueva Provincia</a>
+
+<div class="table table-responsive mt-5">
+    <table class="table caption-top">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Provincia</th>
+                <th scope="col">CRUD</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (_provincias != null)
+            {
+                foreach (var provincias in _provincias)
+                {
+                    <tr>
+                        <td>@provincias.Id</td>
+                        <td>@provincias.Provincia</td>
+                        <td>
+                            <a href="/modificarprovincia/@provincias.Id" class="btn btn-warning">Modificar</a>
+                            <button class="btn btn-danger" @onclick="() => ProvinciasDelete(provincias)">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    [Inject] CrudDbContext crudDb { get; set; }
+    private List<Provincias> _provincias = new List<Provincias>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _provincias = await crudDb.Provincias.ToListAsync();
+    }
+
+    private async Task ProvinciasDelete(Provincias ProvinciasDelete)
+    {
+        crudDb.Provincias.Remove(ProvinciasDelete);
+        await crudDb.SaveChangesAsync();
+        _provincias.Remove(ProvinciasDelete);
+        StateHasChanged();
+    }
+    
+}

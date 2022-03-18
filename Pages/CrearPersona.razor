@@ -1,0 +1,91 @@
+﻿@page "/crearpersona"
+@using CRUDVACUNACIONT8.Data
+@using Microsoft.EntityFrameworkCore
+
+<h3>Nueva persona</h3>
+
+<EditForm Model="_personasToCreate" OnInvalidSubmit="CreatePersonas">
+    <div class="form-group mb-3">
+        <label for="personaCedula">Cédula</label>
+        <InputText @bind-Value="_personasToCreate.Cedula" class="form-control" id="personaCedula" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="personaNombre">Nombre</label>
+        <InputText @bind-Value="_personasToCreate.Nombre" class="form-control" id="personaNombre" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="personaApellido">Apellido</label>
+        <InputText @bind-Value="_personasToCreate.Apellido" class="form-control" id="personaApellido" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="personaTelefono">Teléfono</label>
+        <InputText @bind-Value="_personasToCreate.Telefono" class="form-control" id="personaTelefono" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="personaFeNacimiento">Fecha de Nacimiento</label>
+        <InputDate @bind-Value="_personasToCreate.FechaNacimiento" class="form-control" id="personaFeNacimiento" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="personaProvincia">Provincia</label>
+        <InputSelect @bind-Value="_personasToCreate.IdProvincia" class="form-control" id="personaProvincia">
+            @foreach (var pro in _provincias)
+            {
+                <option value="@pro.Id">@pro.Provincia</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="personaVacuna">Dosis</label>
+        <InputSelect @bind-Value="_personasToCreate.IdVacuna" class="form-control" id="personaVacuna">
+            @foreach (var vacu in _vacunas)
+            {
+                <option value="@vacu.Id">@vacu.Dosis - @vacu.NombreVacuna</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="personaFecha">Fecha de Vacunación</label>
+        <InputDate @bind-Value="_personasToCreate.Fecha" class="form-control" id="personaFecha" />
+    </div>
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <button @onclick="() => CreatePersonas()" class="btn btn-success" type="submit">Guardar</button>
+    <a href="/" class="btn btn-secondary">Cancelar</a>
+</EditForm>
+
+@code {
+    [Inject] CrudDbContext? CrudDbContext { get; set; }
+    [Inject] NavigationManager? navigationManager { get; set; }
+
+    private Personas _personasToCreate = new Personas {};
+    private List<VacunasRecibidas> _vacunas = new List<VacunasRecibidas>();
+    private List<Provincias> _provincias = new List<Provincias>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (CrudDbContext?.Vacunas != null && CrudDbContext?.Provincias != null)
+        {
+            _vacunas = await CrudDbContext.Vacunas.ToListAsync();
+            _provincias = await CrudDbContext.Provincias.ToListAsync();
+        }
+    }
+
+    private void CreatePersonas()
+    {
+        if (navigationManager != null && CrudDbContext?.Personas != null && CrudDbContext != null && _personasToCreate.Cedula != null && _personasToCreate.Nombre != null && _personasToCreate.Apellido != null && _personasToCreate.Telefono != null && _personasToCreate?.FechaNacimiento != null && _personasToCreate?.IdProvincia != null && _personasToCreate?.IdVacuna != null && _personasToCreate?.Fecha != null)
+        {
+            CrudDbContext.Personas.Add(_personasToCreate);
+            CrudDbContext.SaveChangesAsync();
+            navigationManager.NavigateTo("/");
+        }
+    }
+}

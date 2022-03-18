@@ -1,0 +1,34 @@
+﻿@page "/crearprovincia"
+@using CRUDVACUNACIONT8.Data
+
+<h3>Nueva Vacuna</h3>
+
+<EditForm Model="_provinciaToCreate" OnInvalidSubmit="CreateProvincia">
+    <div class="form-group mb-3">
+        <label for="provinciaNombre">Nombre Provincia</label>
+        <InputText @bind-Value="_provinciaToCreate.Provincia" class="form-control" id="provinciaNombre" />
+    </div>
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <button @onclick="() => CreateProvincia()" class="btn btn-success" type="submit">Guardar</button>
+    <a href="/provincias" class="btn btn-secondary">Cancelar</a>
+</EditForm>
+
+@code {
+    [Inject] CrudDbContext CrudDbContext { get; set; }
+    [Inject] NavigationManager navigationManager { get; set; }
+
+    private Provincias _provinciaToCreate = new Provincias {};
+
+    private void CreateProvincia()
+    {
+        if (_provinciaToCreate.Provincia != null)
+        {
+            CrudDbContext.Provincias.Add(_provinciaToCreate);
+            CrudDbContext.SaveChangesAsync();
+            navigationManager.NavigateTo("/provincias");
+        }
+    }
+}

@@ -1,0 +1,60 @@
+﻿@page "/vacunas"
+@using CRUDVACUNACIONT8.Data
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Vacunas - Covid-19</PageTitle>
+
+<h1>Listado de Vacunas</h1>
+
+<a href="/crearvacuna" class="btn btn-success mt-5">Nueva Vacuna</a>
+
+<div class="table-responsive mt-5">
+    <table class=" table table caption-top">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Dosis</th>
+                <th scope="col">Nombre Vacuna</th>
+                <th scope="col">CRUD</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (_vacunas != null)
+            {
+                foreach (var vacunas in _vacunas)
+                {
+                    <tr>
+                        <td>@vacunas.Id</td>
+                        <td>@vacunas.Dosis</td>
+                        <td>@vacunas.NombreVacuna</td>
+                        <td>
+                            <a href="/modificarvacuna/@vacunas.Id" class="btn btn-warning">Modificar</a>
+                            <button class="btn btn-danger" @onclick="() => VacunasDelete(vacunas)">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@code
+{
+    [Inject] CrudDbContext crudDb { get; set; }
+    private List<VacunasRecibidas> _vacunas = new List<VacunasRecibidas>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _vacunas = await crudDb.Vacunas.ToListAsync();
+    }
+
+    private async Task VacunasDelete(VacunasRecibidas VacunasDelete)
+    {
+        crudDb.Vacunas.Remove(VacunasDelete);
+        await crudDb.SaveChangesAsync();
+        _vacunas.Remove(VacunasDelete);
+        StateHasChanged();
+    }
+    
+}

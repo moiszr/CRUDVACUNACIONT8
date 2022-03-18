@@ -1,0 +1,45 @@
+﻿@page "/modificarvacuna/{id:int}"
+@using CRUDVACUNACIONT8.Data
+
+<h3>Modificar Vacuna</h3>
+
+<EditForm Model="_vacunaToModify" OnInvalidSubmit="ModifyVacuna">
+    <div class="form-group mb-3">
+        <label for="vacunaDosis">Dosis</label>
+        <InputText @bind-Value="_vacunaToModify.Dosis" class="form-control" id="vacunaDosis" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="vacunaNombre">Nombre Vacuna</label>
+        <InputText @bind-Value="_vacunaToModify.NombreVacuna" class="form-control" id="vacunaNombre" />
+    </div>
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <button @onclick="() => ModifyVacuna()" class="btn btn-success" type="submit">Guardar</button>
+    <a href="/vacunas" class="btn btn-secondary">Cancelar</a>
+</EditForm>
+
+@code {
+    [Inject] CrudDbContext CrudDbContext { get; set; }
+    [Inject] NavigationManager navigationManager { get; set; }
+    [Parameter] public int id { get; set; }
+
+    private VacunasRecibidas _vacunaToModify = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _vacunaToModify = await CrudDbContext.Vacunas.FindAsync(id);
+    }
+
+    private void ModifyVacuna()
+    {
+        if (_vacunaToModify.Dosis != null && _vacunaToModify.NombreVacuna != null)
+        {
+            CrudDbContext.Vacunas.Update(_vacunaToModify);
+            CrudDbContext.SaveChangesAsync();
+            navigationManager.NavigateTo("/vacunas");
+        }
+    }
+}

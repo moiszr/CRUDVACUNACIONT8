@@ -1,0 +1,75 @@
+﻿@page "/"
+@using CRUDVACUNACIONT8.Data
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Vacunacion Covid-19</PageTitle>
+
+<h1>Listado de Personas</h1>
+
+<a href="/crearpersona" class="btn btn-success mt-5">Nueva Persona</a>
+
+<div class="table table-responsive mt-5">
+    <table class="table caption-top">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Cedula</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Fecha de nacimiento</th>
+                <th scope="col">Dosis Recivida</th>
+                <th scope="col">Provincia</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">CRUD</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (_personas != null)
+            {
+                foreach (var personas in _personas)
+                {
+                    <tr>
+                        <td>@personas.Id</td>
+                        <td>@personas.Cedula</td>
+                        <td>@personas.Nombre</td>
+                        <td>@personas.Apellido</td>
+                        <td>@personas.Telefono</td>
+                        <td>@personas.FechaNacimiento.ToString("dd/M/yyyy")</td>
+                        <td>@personas.VacunasRecibidas?.Dosis</td>
+                        <td>@personas.Provincias?.Provincia</td>
+                        <td>@personas.Fecha.ToString("dd/M/yyyy")</td>
+                        <td>
+                            <a href="/modificarpersona/@personas.Id" class="btn btn-warning">Modificar</a>
+                            <button class="btn btn-danger" @onclick="() => DeletePersonas(personas)">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    [Inject] CrudDbContext crudDb { get; set; }
+    private List<Personas> _personas = new List<Personas>();
+    private List<VacunasRecibidas> _vacunas = new List<VacunasRecibidas>();
+    private List<Provincias> _provincia = new List<Provincias>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _personas = await crudDb.Personas.ToListAsync();
+        _vacunas = await crudDb.Vacunas.ToListAsync();
+        _provincia = await crudDb.Provincias.ToListAsync();
+    }
+
+    private async Task DeletePersonas(Personas PersonasDelete)
+    {
+        crudDb.Personas.Remove(PersonasDelete);
+        await crudDb.SaveChangesAsync();
+        _personas.Remove(PersonasDelete);
+        StateHasChanged();
+    }
+    
+}

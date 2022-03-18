@@ -1,0 +1,39 @@
+﻿@page "/crearvacuna"
+@using CRUDVACUNACIONT8.Data
+
+<h3>Nueva Vacuna</h3>
+
+<EditForm Model="_vacunaToCreate" OnInvalidSubmit="CreateVacuna">
+    <div class="form-group mb-3">
+        <label for="vacunaCedula">Dosis</label>
+        <InputText @bind-Value="_vacunaToCreate.Dosis" class="form-control" id="vacunaCedula" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="vacunaNombre">Nombre Vacuna</label>
+        <InputText @bind-Value="_vacunaToCreate.NombreVacuna" class="form-control" id="vacunaNombre" />
+    </div>
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <button @onclick="() => CreateVacuna()" class="btn btn-success" type="submit">Guardar</button>
+    <a href="/vacunas" class="btn btn-secondary">Cancelar</a>
+</EditForm>
+
+@code {
+    [Inject] CrudDbContext CrudDbContext { get; set; }
+    [Inject] NavigationManager navigationManager { get; set; }
+
+    private VacunasRecibidas _vacunaToCreate = new VacunasRecibidas {};
+
+    private void CreateVacuna()
+    {
+        if (_vacunaToCreate.Dosis != null && _vacunaToCreate.NombreVacuna != null)
+        {
+            CrudDbContext.Vacunas.Add(_vacunaToCreate);
+            CrudDbContext.SaveChangesAsync();
+            navigationManager.NavigateTo("/vacunas");
+        }
+    }
+}
