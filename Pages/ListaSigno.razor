@@ -1,4 +1,4 @@
-﻿@page "/Signo"
+﻿@page "/signo"
 @using CRUDVACUNACIONT8.Data
 @using Microsoft.EntityFrameworkCore
 
@@ -9,6 +9,7 @@
 {
     foreach (var post in _personas)
     {
+
         string dt = post.FechaNacimiento.ToString("MM/dd/yyyy");
         DateTime myDateTime = DateTime.Parse(dt);
         int dia = int.Parse(Convert.ToString(myDateTime.Day));
@@ -54,17 +55,17 @@
     }
 }
 
-<DataGrid Datos="@aries" SignoZ="Aries"> </DataGrid>
-<DataGrid Datos="@libra" SignoZ="Libre"> </DataGrid>
-<DataGrid Datos="@tauro" SignoZ="Tauro"> </DataGrid>
-<DataGrid Datos="@escorpio" SignoZ="Escorpio"> </DataGrid>
-<DataGrid Datos="@geminis" SignoZ="Geminis"> </DataGrid>
-<DataGrid Datos="@sagitario" SignoZ="Sagitario"> </DataGrid>
-<DataGrid Datos="@cancer" SignoZ="Cancer"> </DataGrid>
-<DataGrid Datos="@capricornio" SignoZ="Capricornio"> </DataGrid>
-<DataGrid Datos="@leo" SignoZ="Leo"> </DataGrid>
-<DataGrid Datos="@acuario" SignoZ="Acuario"> </DataGrid>
-<DataGrid Datos="@virgo" SignoZ="Virgo"> </DataGrid>
+<DataGrid Datos="@aries" Titulo="Aries"> </DataGrid>
+<DataGrid Datos="@libra" Titulo="Libre"> </DataGrid>
+<DataGrid Datos="@tauro" Titulo="Tauro"> </DataGrid>
+<DataGrid Datos="@escorpio" Titulo="Escorpio"> </DataGrid>
+<DataGrid Datos="@geminis" Titulo="Geminis"> </DataGrid>
+<DataGrid Datos="@sagitario" Titulo="Sagitario"> </DataGrid>
+<DataGrid Datos="@cancer" Titulo="Cancer"> </DataGrid>
+<DataGrid Datos="@capricornio" Titulo="Capricornio"> </DataGrid>
+<DataGrid Datos="@leo" Titulo="Leo"> </DataGrid>
+<DataGrid Datos="@acuario" Titulo="Acuario"> </DataGrid>
+<DataGrid Datos="@virgo" Titulo="Virgo"> </DataGrid>
 
 @code
 {

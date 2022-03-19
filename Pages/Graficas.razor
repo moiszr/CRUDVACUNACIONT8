@@ -1,0 +1,118 @@
+﻿@page "/grafica"
+@using ChartJs.Blazor.PieChart
+@using CRUDVACUNACIONT8.Data
+@using Microsoft.EntityFrameworkCore
+
+<center><h3>Vacunados por dosis</h3></center>
+
+<Chart Config = "_configurationpie"></Chart>
+
+<DataGrid Datos="@PrimeraD" Titulo="Primera-Dosis"> </DataGrid>
+<DataGrid Datos="@SegundaD" Titulo="Segunda-Dosis"> </DataGrid>
+<DataGrid Datos="@TerceraD" Titulo="Tercera-Dosis"> </DataGrid>
+<DataGrid Datos="@CuartaD" Titulo="Cuarta-Dosis"> </DataGrid>
+
+@code {
+
+
+    [Inject] CrudDbContext crudDb { get; set; }
+    private List<Personas> _personas = new List<Personas>();
+    private List<VacunasRecibidas> _vacunas = new List<VacunasRecibidas>();
+    private List<Provincias> _provincia = new List<Provincias>();
+    public int Primera = 0;
+    public int Segunda = 0;
+    public int Tercera = 0;
+    public int Cuarta = 0;
+
+
+    private List<Signo> PrimeraD  = new List<Signo>();
+    private List<Signo> SegundaD  = new List<Signo>();
+    private List<Signo> TerceraD  = new List<Signo>();
+    private List<Signo> CuartaD  = new List<Signo>();
+
+
+    public void conteo()
+    {
+        foreach (var item in _personas)
+        {
+            Signo DataD = new Signo();
+
+            DataD.Id = item.Id;
+            DataD.Cedula = item.Cedula;
+            DataD.Nombre = item.Nombre;
+            DataD.Apellido = item.Apellido;
+            DataD.Telefono = item.Telefono;
+            DataD.FechaNacimiento = item.FechaNacimiento;
+            DataD.VacunasRecibidas = item.VacunasRecibidas;
+            DataD.Provincias = item.Provincias;
+            DataD.Fecha = item.Fecha;
+
+            if (item.VacunasRecibidas?.Dosis == "Primera")
+            {
+                Primera++;
+                PrimeraD.Add(DataD);
+            }
+            if (item.VacunasRecibidas?.Dosis == "Segunda")
+            {
+                Segunda++;
+                SegundaD.Add(DataD);
+            }
+            if (item.VacunasRecibidas?.Dosis == "Tercera")
+            {
+                Tercera++;
+                TerceraD.Add(DataD);
+            }
+             if (item.VacunasRecibidas?.Dosis == "Cuarta")
+            {
+                Cuarta++;
+                CuartaD.Add(DataD);
+            }
+
+        }
+
+    }
+
+    private PieConfig _configurationpie;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+       _personas = await crudDb.Personas.ToListAsync();
+        _vacunas = await crudDb.Vacunas.ToListAsync();
+        _provincia = await crudDb.Provincias.ToListAsync();
+        conteo();
+        PerformPieConfiguration();
+    }
+
+
+    private void PerformPieConfiguration()
+    {
+        _configurationpie = new PieConfig();
+        _configurationpie.Options = new PieOptions
+            {
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = ""
+                }
+            };
+        foreach( var item in new[]{"Primera-Dosis", "Segunda-Dosis","Tercera-Dosis","Cuarta-Dosis"})
+        {
+            _configurationpie.Data.Labels.Add(item);
+        }
+        PieDataset<int> dataset = new PieDataset<int>(new[] {Primera, Segunda,Tercera,Cuarta })
+            {
+                BackgroundColor = new[]
+                {
+                ColorUtil.ColorHexString(52, 152, 219),
+                ColorUtil.ColorHexString(39, 174, 96),
+                 ColorUtil.ColorHexString(230, 126, 34),
+                ColorUtil.ColorHexString(231, 76, 60)
+            }
+            };
+            _configurationpie.Data.Datasets.Add(dataset);
+    }
+
+}
